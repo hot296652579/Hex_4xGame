@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "999c3109-72fd-4f4b-9913-cf8fcf5b2d7c",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 120,
+  "height": 140,
+  "platformSettings": {},
+  "subMetas": {
+    "modern_campsite": {
+      "ver": "1.0.6",
+      "uuid": "6c97c69b-3307-453e-b579-a9250b2a1b6d",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "999c3109-72fd-4f4b-9913-cf8fcf5b2d7c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 120,
+      "height": 140,
+      "rawWidth": 120,
+      "rawHeight": 140,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

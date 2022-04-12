@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "75437651-e4ed-4fef-91b7-df6e51d5a4ea",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 120,
+  "height": 140,
+  "platformSettings": {},
+  "subMetas": {
+    "medieval_tower": {
+      "ver": "1.0.6",
+      "uuid": "15b44087-1c16-4de9-8835-213f34e1c587",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "75437651-e4ed-4fef-91b7-df6e51d5a4ea",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 120,
+      "height": 140,
+      "rawWidth": 120,
+      "rawHeight": 140,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

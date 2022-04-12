@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "d09d4c43-3fe8-486c-b39d-f04f5ed75b1d",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 120,
+  "height": 140,
+  "platformSettings": {},
+  "subMetas": {
+    "scifi_headquarters": {
+      "ver": "1.0.6",
+      "uuid": "1a4c041d-6bf7-425e-a64e-4f51eea1c035",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "d09d4c43-3fe8-486c-b39d-f04f5ed75b1d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 120,
+      "height": 140,
+      "rawWidth": 120,
+      "rawHeight": 140,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

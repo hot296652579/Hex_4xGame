@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "86b0d4d7-2ca8-4eb1-bb59-7641cdfc9f35",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 120,
+  "height": 140,
+  "platformSettings": {},
+  "subMetas": {
+    "western_watertower": {
+      "ver": "1.0.6",
+      "uuid": "1190dd39-b42a-4690-98c5-29614edf238a",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "86b0d4d7-2ca8-4eb1-bb59-7641cdfc9f35",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 120,
+      "height": 140,
+      "rawWidth": 120,
+      "rawHeight": 140,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

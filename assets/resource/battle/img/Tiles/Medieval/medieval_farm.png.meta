@@ -1,0 +1,38 @@
+{
+  "ver": "2.3.7",
+  "uuid": "a4682779-f0c0-4560-996c-0b854a0230da",
+  "importer": "texture",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 120,
+  "height": 140,
+  "platformSettings": {},
+  "subMetas": {
+    "medieval_farm": {
+      "ver": "1.0.6",
+      "uuid": "61979d8f-e749-42a7-b424-4fd9d48bc0f9",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "a4682779-f0c0-4560-996c-0b854a0230da",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 120,
+      "height": 140,
+      "rawWidth": 120,
+      "rawHeight": 140,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
