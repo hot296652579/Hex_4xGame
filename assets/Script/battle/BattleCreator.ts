@@ -27,10 +27,6 @@ export default class BattleCreator {
         return BattleCreator.battleCreator;
     }
 
-    start () {
-
-    }
-
     init(){
         if(this.inited)return;
 
@@ -39,6 +35,7 @@ export default class BattleCreator {
 
     public CreateBattl():BattleData{
         let battleData = new BattleData();
+        battleData.Generate(5,6,5,3);
         return battleData;
     }
 

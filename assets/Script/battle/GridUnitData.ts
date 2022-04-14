@@ -2,12 +2,12 @@
  * @Author: super_javan 
  * @Date: 2022-04-12 22:31:53 
  * @Last Modified by: super_javan
- * @Last Modified time: 2022-04-12 22:56:36
+ * @Last Modified time: 2022-04-13 18:04:33
  * @Describe : 格子数据
  */
 
 const {ccclass, property} = cc._decorator;
-enum GridType{
+export enum GridType{
     Normal,   //平地
     Obstacle  //障碍
 }
@@ -17,6 +17,7 @@ export default class GridUnitData {
 
     public gridType:GridType;
     public gridPosition:cc.Vec2;
+    public localPosition:cc.Vec2;
 
     /**计算两个格子之间距离*/
     public Distance(target:GridUnitData){
@@ -41,3 +42,5 @@ export default class GridUnitData {
         }
     }
 }
+
+//export {GridUnitData as GridData}//导出重命名
