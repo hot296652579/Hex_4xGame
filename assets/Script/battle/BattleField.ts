@@ -2,7 +2,7 @@
  * @Author: super_javan 
  * @Date: 2022-04-13 16:42:36 
  * @Last Modified by: super_javan
- * @Last Modified time: 2022-04-13 18:39:53
+ * @Last Modified time: 2022-04-25 16:05:59
  * Describe : 战斗显示对象
  */
 
@@ -11,7 +11,7 @@ import BattleData from "./BattleData";
 import GridUnit from "./GridUnit";
 
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BattleField extends cc.Component {
@@ -20,13 +20,13 @@ export default class BattleField extends cc.Component {
     gridUnitsRoot: cc.Node = null;
 
     @property(cc.Prefab)
-    gridUnitModel:cc.Prefab = null;
+    gridUnitModel: cc.Prefab = null;
 
-    currentData:BattleData;
+    currentData: BattleData;
     //挂地图上的格子
-    public gridUnits:Array<Array<GridUnit>>;
-    
-    public gridPool:Array<GridUnit>;
+    public gridUnits: Array<Array<GridUnit>>;
+
+    public gridPool: Array<GridUnit>;
     static battleField: BattleField;
 
     onLoad() {
@@ -35,17 +35,17 @@ export default class BattleField extends cc.Component {
         this.LoadBattleData(battleData);
     }
 
-    public static getInstance():BattleField{
+    public static getInstance(): BattleField {
 
-        if(this.battleField == null){
+        if (this.battleField == null) {
             this.battleField = new BattleField();
         }
 
         return BattleField.battleField;
     }
 
-    public LoadBattleData(battleData:BattleData){
-        if(battleData != null){
+    public LoadBattleData(battleData: BattleData) {
+        if (battleData != null) {
             this.UnloadBattleData();
         }
 
@@ -53,30 +53,29 @@ export default class BattleField extends cc.Component {
         this.PrepareBattleMap();
     }
 
-    private PrepareBattleMap(){
+    private PrepareBattleMap() {
         let self = this;
-        if(this.currentData == null){
+        if (this.currentData == null) {
             console.log('地图出错 战斗数据没有!');
         }
 
         let currentData = this.currentData;
         this.gridUnits = new Array<Array<GridUnit>>();
-        // this.gridUnits[currentData.mapWith][currentData.mapHeight];
-        for (let i = 0; i < currentData.mapWith; i++) {
+        for (let i = 0; i < currentData.mapData.mapHeight; i++) {
             this.gridUnits.push(new Array<GridUnit>());
         }
-        for (let i = 0; i < currentData.mapWith; i++) {
-            for (let j = 0; j < currentData.mapHeight; j++) {
+        for (let i = 0; i < currentData.mapData.mapHeight; i++) {
+            for (let j = 0; j < currentData.mapData.mapWith; j++) {
                 this.gridUnits[i].push(new GridUnit);
-            }   
+            }
         }
 
-        for (let row = 0; row < currentData.mapHeight; row++) {
-            for (let col = 0; col < currentData.mapWith; col++) {
-                let gud = currentData.mapGrids[col][row];
-                if(gud != null){
+        for (let row = 0; row < currentData.mapData.mapHeight; row++) {
+            for (let col = 0; col < currentData.mapData.mapWith; col++) {
+                let gud = currentData.mapData.mapGrids[col][row];
+                if (gud != null) {
                     let gu = self.CreateGrid();
-                    if(gu){
+                    if (gu) {
                         self.gridUnits[col][row] = gu.getComponent(GridUnit);
                         gu.getComponent(GridUnit).node.setPosition(gud.localPosition);
                         gu.getComponent(GridUnit).gridData = gud;
@@ -87,25 +86,25 @@ export default class BattleField extends cc.Component {
         }
     }
 
-    private CreateGrid(){
-        if(this.gridPool == null){
+    private CreateGrid() {
+        if (this.gridPool == null) {
             this.gridPool = new Array<GridUnit>();
         }
 
         for (let index = 0; index < this.gridPool.length; index++) {
-            if(!this.gridPool[index].node.active){
+            if (!this.gridPool[index].node.active) {
                 return this.gridPool[index];
             }
         }
 
         let gu = cc.instantiate(this.gridUnitModel);
         gu.parent = this.gridUnitsRoot;
-        gu.setPosition(0,0);
+        gu.setPosition(0, 0);
         this.gridPool.push(gu.getComponent(GridUnit));
         return gu;
     }
 
-    private UnloadBattleData(){
+    private UnloadBattleData() {
 
     }
 
