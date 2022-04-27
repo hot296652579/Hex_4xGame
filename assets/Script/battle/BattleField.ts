@@ -8,7 +8,9 @@
 
 import BattleCreator from "./BattleCreator";
 import BattleData from "./BattleData";
-import GridUnit from "./GridUnit";
+import GridUnit, { GridRanderType } from "./GridUnit";
+import GridUnitData, { GridType } from "./GridUnitData";
+import MapNavigator from "./MapNavigator";
 
 
 const { ccclass, property } = cc._decorator;
@@ -22,6 +24,11 @@ export default class BattleField extends cc.Component {
     @property(cc.Prefab)
     gridUnitModel: cc.Prefab = null;
 
+    private from = null;
+    private to = null;
+    private path: Array<GridUnitData>;
+    private searched: Array<GridUnitData>;
+
     currentData: BattleData;
     //挂地图上的格子
     public gridUnits: Array<Array<GridUnit>>;
@@ -33,6 +40,9 @@ export default class BattleField extends cc.Component {
         // console.log(this.gridUnitModel);    
         let battleData = BattleCreator.getInstance().CreateBattl();
         this.LoadBattleData(battleData);
+
+        this.path = new Array<GridUnitData>();
+        this.searched = new Array<GridUnitData>();
     }
 
     public static getInstance(): BattleField {
@@ -65,13 +75,13 @@ export default class BattleField extends cc.Component {
             this.gridUnits.push(new Array<GridUnit>());
         }
         for (let i = 0; i < currentData.mapData.mapHeight; i++) {
-            for (let j = 0; j < currentData.mapData.mapWith; j++) {
+            for (let j = 0; j < currentData.mapData.mapWidth; j++) {
                 this.gridUnits[i].push(new GridUnit);
             }
         }
 
         for (let row = 0; row < currentData.mapData.mapHeight; row++) {
-            for (let col = 0; col < currentData.mapData.mapWith; col++) {
+            for (let col = 0; col < currentData.mapData.mapWidth; col++) {
                 let gud = currentData.mapData.mapGrids[col][row];
                 if (gud != null) {
                     let gu = self.CreateGrid();
@@ -101,11 +111,120 @@ export default class BattleField extends cc.Component {
         gu.parent = this.gridUnitsRoot;
         gu.setPosition(0, 0);
         this.gridPool.push(gu.getComponent(GridUnit));
+
+        gu.on('clickGrid', this.clickGrid, this);
         return gu;
+    }
+    clickGrid(args) {
+        let clicked = args.detail;
+        // console.log(clicked.gridData);
+        //点中了格子
+        if (clicked != null) {
+            if (clicked.gridData.GridType == GridType.Obstacle) {
+                //点中了障碍物！
+                console.log("Clicked obstacle.");
+                return;
+            }
+            if (this.from == null) {
+                //当前还没有选择起始地点
+                this.from = clicked;
+                this.from.GridType = GridRanderType.Start;
+            }
+            else if (this.to == null) {
+                //两次点中了起点
+                let gridData = clicked.gridData;
+                if (this.from.Equals(gridData.row, gridData.column))
+                    return;
+
+                //当前没有选择终点
+                this.to = clicked;
+                this.to.GridType = GridRanderType.End;
+                let navTimes = 999;
+                let count = navTimes;
+                while (count > 0) {
+                    //有起点有终点，开始导航
+                    if (MapNavigator.getInstance().Navigate(this.currentData.mapData, this.from.gridData, this.to.gridData, this.path, this.searched)) {
+                    }
+                    else {
+                        //没有找到路径
+                        console.log('"Navitation failed. No path."');
+                        return;
+                    }
+                    --count;
+                }
+                this.TestGridRender();
+                // EUtilityHelperL.Log(string.Format("Nav times:{0}, timeCost{1:00}", navTimes, EUtilityHelperL.TimerEnd()));
+            }
+            else {
+                this.from.GridType = GridRanderType.Normal;
+                this.from = null;
+                this.to.GridType = GridRanderType.Normal;
+                this.to = null;
+
+                for (let index = 0; index < this.searched.length; index++) {
+                    let item = this.searched[index];
+                    this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+                }
+
+                for (let index = 0; index < this.path.length; index++) {
+                    let item = this.path[index];
+                    this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+                }
+            }
+        }
+        //没有点中格子
+        else {
+            if (this.from != null) {
+                this.from.GridType = GridRanderType.Normal;
+                this.from = null;
+            }
+            if (this.to != null) {
+                this.to.GridType = GridRanderType.Normal;
+                this.to = null;
+            }
+
+            for (let index = 0; index < this.searched.length; index++) {
+                let item = this.searched[index];
+                this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+            }
+
+            for (let index = 0; index < this.path.length; index++) {
+                let item = this.path[index];
+                this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+            }
+        }
+    }
+
+    TestGridRender() {
+        let from = this.from;
+        let to = this.to;
+        for (let index = 0; index < this.path.length; index++) {
+            const item = this.path[index];
+            if (item.row != from.gridData.row && item.column != from.gridData.column) {
+                if (item.row != to.gridData.row && item.column != to.gridData.column) {
+                    let gu = this.gridUnits[item.column][item.row];
+                    gu.GridType = GridRanderType.Path;
+                }
+            }
+        }
+    }
+
+    RecycleAllGrids() {
+        if (this.gridPool == null)
+            return;
+
+        for (let i = 0; i < this.gridPool.length; ++i) {
+            let grid = this.gridPool[i];
+            grid.node.active = false;
+            grid.node.setPosition(0, 0);
+        }
+
+        this.gridUnits = null;
     }
 
     private UnloadBattleData() {
-
+        this.RecycleAllGrids();
+        this.currentData = null;
     }
 
     // update (dt) {}

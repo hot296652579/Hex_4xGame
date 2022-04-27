@@ -8,6 +8,14 @@
 
 import GridUnitData, { GridType } from "./GridUnitData";
 
+class MyEvent extends cc.Event {
+    constructor(name: string, bubbles?: boolean, detail?: any) {
+        super(name, bubbles);
+        this.detail = detail;
+    }
+    public detail: any = null;  // 自定义的属性
+}
+
 
 const { ccclass, property } = cc._decorator;
 export enum GridRanderType {
@@ -37,49 +45,64 @@ export default class GridUnit extends cc.Component {
         // this.obstacleGrid.active = false;
     }
 
+    onLoad() {
+        this.normalGrid.off(cc.Node.EventType.TOUCH_END, this.clickHandler, this);
+        this.normalGrid.on(cc.Node.EventType.TOUCH_END, this.clickHandler, this);
+    }
+
+    clickHandler() {
+        this.node.dispatchEvent(new MyEvent('clickGrid', true, this));
+    }
+
     public Refresh() {
         let imgPath;
 
         switch (this.gridRanderType) {
             case GridRanderType.Start:
                 imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_04';
-                break;
+                this.refreshGridIcon(imgPath);
+                return;
             case GridRanderType.End:
                 imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_03';
-                break;
+                this.refreshGridIcon(imgPath);
+                return;
             case GridRanderType.Selected:
                 imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_04';
-                break;
+                this.refreshGridIcon(imgPath);
+                return;
             case GridRanderType.Path:
                 imgPath = 'battle/img/Tiles/Terrain/Mars/mars_06';
-                break;
+                this.refreshGridIcon(imgPath);
+                return;
             case GridRanderType.Searched:
                 imgPath = 'battle/img/Tiles/Terrain/Mars/mars_08';
-                break;
+                this.refreshGridIcon(imgPath);
+                return;
             case GridRanderType.Range:
                 imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_10';
-                break;
-
-            default:
-                break;
+                this.refreshGridIcon(imgPath);
+                return;
         }
 
-        switch (this.gridData.gridType) {
+        switch (this.gridData.GridType) {
             case GridType.Normal:
                 imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_07';
+                this.refreshGridIcon(imgPath);
                 break;
             case GridType.Born:
-                imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_07';
+                imgPath = 'battle/img/Tiles/Terrain/Dirt/dirt_04';
+                this.refreshGridIcon(imgPath);
                 break;
             case GridType.Obstacle:
                 imgPath = 'battle/img/Tiles/Medieval/medieval_cabin';
+                this.refreshGridIcon(imgPath);
                 break;
 
             default:
                 break;
         }
 
-        this.refreshGridIcon(imgPath);
+
     }
 
     refreshGridIcon(imgPath) {
@@ -95,15 +118,19 @@ export default class GridUnit extends cc.Component {
 
     public set GridType(type) {
         this.gridRanderType = type;
+        this.Refresh();
     }
 
     public get GridType() {
         return this.gridRanderType;
     }
 
-    // public Equals(obj: Object): boolean {
-
-    // }
+    public Equals(row, col): boolean {
+        if (row == this.gridData.row && col == this.gridData.column) {
+            return true;
+        }
+        return false;
+    }
 
     // update (dt) {}
 }

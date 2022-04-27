@@ -20,8 +20,10 @@ export default class GridUnitData {
     public gridType: GridType;
     public gridPosition: cc.Vec2;
     public localPosition: cc.Vec2;
+    public tempRef: Object;
     row: number;
     column: number;
+    passes: number;
 
     constructor(row, column) {
         this.row = row;
@@ -83,6 +85,23 @@ export default class GridUnitData {
 
     public set GridType(type) {
         this.gridType = type;
+        switch (this.gridType) {
+            case GridType.None:
+                this.passes = 0;
+                break;
+            case GridType.Normal:
+                this.passes = 63;
+                break;
+            case GridType.Obstacle:
+                this.passes = 0;
+                break;
+            case GridType.Born:
+                this.passes = 63;
+                break;
+            default:
+                this.passes = 63;
+                break;
+        }
     }
 
     public get GridType() {

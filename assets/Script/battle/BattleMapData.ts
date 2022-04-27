@@ -16,7 +16,7 @@ export default class BattleMapData {
     GridWidth = 120;
     GridOffsetY = 110;
 
-    public mapWith = 0;
+    public mapWidth = 0;
     public mapHeight = 0;
 
     public mapGrids: Array<Array<GridUnitData>>;
@@ -33,7 +33,7 @@ export default class BattleMapData {
 
         let self = this;
         this.mapHeight = height;
-        this.mapWith = width;
+        this.mapWidth = width;
         this.mapGrids = new Array<Array<GridUnitData>>();
         for (let i = 0; i < width; i++) {
             this.mapGrids.push(new Array<GridUnitData>());
@@ -56,12 +56,10 @@ export default class BattleMapData {
                     r * this.GridOffsetY);
                 gud.gridPosition = new cc.Vec2(r, c);
                 this.mapGrids[r][c] = gud;
-                // this.setGridType(gud, GridType.Normal);
                 gud.GridType = GridType.Normal;
             }
         }
 
-        // this.disposeGridUnits(obstacle, gap);
         this.GenerateObstacle(obstacle, gap);
         this.TidyGridList();
     }
@@ -72,7 +70,7 @@ export default class BattleMapData {
         let reduction = new Array<GridUnitData>(); //去掉不能随机的格子
 
         let height = this.mapHeight;
-        let width = this.mapWith;
+        let width = this.mapWidth;
 
         for (let i = 0; i < width; i++) {
             for (let j = 0; j < height; j++) {
@@ -125,7 +123,7 @@ export default class BattleMapData {
 
             //列范围
             minColumn = Math.max(0, minColumn - (range - index));
-            maxColumn = Math.min(this.mapWith - 1, maxColumn + (range - index));
+            maxColumn = Math.min(this.mapWidth - 1, maxColumn + (range - index));
 
             for (let c = 0; c <= maxColumn; c++) {
                 if (index == 0) {
@@ -150,7 +148,7 @@ export default class BattleMapData {
         this.obstacleGrids = [];
 
         for (let i = 0; i < this.mapHeight; i++) {
-            for (let j = 0; j < this.mapWith; j++) {
+            for (let j = 0; j < this.mapWidth; j++) {
                 let grid = this.mapGrids[i][j];
                 if (grid) {
                     switch (grid.GridType) {
@@ -172,54 +170,46 @@ export default class BattleMapData {
         }
     }
 
-    private setGridType(gud, gt) {
-        switch (gt) {
-            case GridType.Normal:
-                this.normalGrids.push(gud);
-                break;
+    GetGridData(row, column): GridUnitData {
+        if (row < 0 || row >= this.mapHeight || column < 0 || column >= this.mapWidth)
+            return null;
 
-            case GridType.Obstacle:
-                this.obstacleGrids.push(gud);
-                break;
-        }
-        gud.gridType = gt;
+        return this.mapGrids[column][row];
     }
 
-    //随机放障碍物
-    private disposeGridUnits(obstacle, gap) {
-        obstacle = Math.min(this.mapWith * this.mapHeight, obstacle);
+    GetGridDataByDir(row, column, dir) {
+        switch (dir) {
+            //9点钟方向格子
+            case 0:
+                return this.GetGridData(row, column - 1);
 
-        for (let index = 0; index < obstacle; index++) {
-            let randomIdx = -1;
-            let target: GridUnitData = null;
+            //7点钟方向格子
+            case 1:
+                return this.GetGridData(row + 1, ((row & 1) > 0) ? column - 1 : column);
 
-            let tryTimes = 999;
-            while (tryTimes > 0 && target == null) {
-                randomIdx = Math.floor(Math.random() * (this.normalGrids.length - 0)) + 0;
-                target = this.normalGrids[randomIdx];
+            //5点钟方向
+            case 2:
+                return this.GetGridData(row + 1, ((row & 1) > 0) ? column : column + 1);
 
-                //距离判断
-                for (let j = 0; j < this.obstacleGrids.length; j++) {
-                    let distance = this.obstacleGrids[j].Distance(target);
-                    if (distance < gap) {
-                        target = null;
-                        break;
-                    }
-                }
-                tryTimes--;
-            }
+            //3点钟方向
+            case 3:
+                return this.GetGridData(row, column + 1);
 
-            if (target != null) {
-                this.setGridType(target, GridType.Obstacle);
-                this.normalGrids.slice(randomIdx, 1);
-            } else {
-                console.log('随机障碍格子数据错误!')
-            }
+            //1点钟方向
+            case 4:
+                return this.GetGridData(row - 1, ((row & 1) > 0) ? column : column + 1);
+
+            //11点钟方向
+            case 5:
+                return this.GetGridData(row - 1, ((row & 1) > 0) ? column - 1 : column);
+
+            default:
+                return null;
         }
     }
 
     public get GridCount() {
-        return this.mapWith * this.mapHeight;
+        return this.mapWidth * this.mapHeight;
     }
 
     public get BornCount() {
