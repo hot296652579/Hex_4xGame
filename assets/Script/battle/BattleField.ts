@@ -82,11 +82,11 @@ export default class BattleField extends cc.Component {
 
         for (let row = 0; row < currentData.mapData.mapHeight; row++) {
             for (let col = 0; col < currentData.mapData.mapWidth; col++) {
-                let gud = currentData.mapData.mapGrids[col][row];
+                let gud = currentData.mapData.mapGrids[row][col];
                 if (gud != null) {
                     let gu = self.CreateGrid();
                     if (gu) {
-                        self.gridUnits[col][row] = gu.getComponent(GridUnit);
+                        self.gridUnits[row][col] = gu.getComponent(GridUnit);
                         gu.getComponent(GridUnit).node.setPosition(gud.localPosition);
                         gu.getComponent(GridUnit).gridData = gud;
                         gu.getComponent(GridUnit).Refresh();

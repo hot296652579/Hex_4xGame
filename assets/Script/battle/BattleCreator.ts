@@ -35,7 +35,7 @@ export default class BattleCreator {
 
     public CreateBattl(): BattleData {
         let battleData = new BattleData();
-        battleData.Generate(5, 5, 4, 2, 0);
+        battleData.Generate(6, 5, 4, 2, 0);
         return battleData;
     }
 

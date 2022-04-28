@@ -95,7 +95,7 @@ export default class MapNavigator {
     Navigate(battleMap, from, to, path, searched): boolean {
         if (battleMap == null) return false;
 
-        path = [];
+        // path = [];
         searched = [];
 
         let tryTimes = battleMap.GridCount;

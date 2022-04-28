@@ -20,7 +20,6 @@ export default class BattleMapData {
     public mapHeight = 0;
 
     public mapGrids: Array<Array<GridUnitData>>;
-
     private bornGrids: Array<GridUnitData>;
     private normalGrids: Array<GridUnitData>;
     private obstacleGrids: Array<GridUnitData>;
@@ -35,11 +34,12 @@ export default class BattleMapData {
         this.mapHeight = height;
         this.mapWidth = width;
         this.mapGrids = new Array<Array<GridUnitData>>();
-        for (let i = 0; i < width; i++) {
+
+        for (let i = 0; i < height; i++) {
             this.mapGrids.push(new Array<GridUnitData>());
         }
-        for (let i = 0; i < width; i++) {
-            for (let j = 0; j < height; j++) {
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
                 this.mapGrids[i].push(new GridUnitData(i, j));
             }
         }
@@ -72,9 +72,17 @@ export default class BattleMapData {
         let height = this.mapHeight;
         let width = this.mapWidth;
 
-        for (let i = 0; i < width; i++) {
-            for (let j = 0; j < height; j++) {
-                let grid = self.mapGrids[i][j];
+        // for (let i = 0; i < width; i++) {
+        //     for (let j = 0; j < height; j++) {
+        //         let grid = self.mapGrids[i][j];
+        //         if (grid.GridType == GridType.Normal) {
+        //             randomRange.push(grid);
+        //         }
+        //     }
+        // }
+        for (let r = 0; r < height; r++) {
+            for (let c = 0; c < width; c++) {
+                let grid = self.mapGrids[r][c];
                 if (grid.GridType == GridType.Normal) {
                     randomRange.push(grid);
                 }
@@ -127,16 +135,16 @@ export default class BattleMapData {
 
             for (let c = 0; c <= maxColumn; c++) {
                 if (index == 0) {
-                    grids.push(this.mapGrids[c][row]);
+                    grids.push(this.mapGrids[row][c]);
                 }
                 else {
                     let temp = row - index;
                     if (temp >= 0)
-                        grids.push(this.mapGrids[c][temp]);
+                        grids.push(this.mapGrids[row][temp]);
 
                     temp = row + index;
                     if (temp < this.mapHeight)
-                        grids.push(this.mapGrids[c][temp]);
+                        grids.push(this.mapGrids[row][temp]);
                 }
             }
         }
