@@ -92,11 +92,11 @@ export default class MapNavigator {
         return nd;
     }
 
-    Navigate(battleMap, from, to, path, searched): boolean {
+    Navigate(battleMap, from, to, callback) {
         if (battleMap == null) return false;
 
-        // path = [];
-        searched = [];
+        let path = [];
+        let searched = [];
 
         let tryTimes = battleMap.GridCount;
         let opening = new Array<NavigationData>();
@@ -182,7 +182,6 @@ export default class MapNavigator {
                     else {
                         //如果这个item就是目标
                         if (sibling.Equals(to)) {
-                            catched = true;
                             if (path != null) {
                                 let current = next_0;
                                 while (current != null) {
@@ -191,6 +190,8 @@ export default class MapNavigator {
                                     }
                                     current = current.preGrid;
                                 }
+
+                                catched = true;
                             }
 
                             break;
@@ -253,7 +254,11 @@ export default class MapNavigator {
         }
         opening = [];
         this.ResetPool();
-        return catched;
+
+        if (callback && catched) {
+            let args = [path, searched];
+            callback(args);
+        }
     }
 
     private ResetPool() {

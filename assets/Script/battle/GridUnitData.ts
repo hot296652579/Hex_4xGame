@@ -54,14 +54,14 @@ export default class GridUnitData {
         let maxColumn = 0;
 
         //奇数开始
-        if ((this.row & 1) == 1) {
+        if ((this.row & 1) > 0) {
             minColumn = Math.max(this.column - (rowGap / 2), 0);
-            maxColumn = this.column + ((rowGap + 1) / 2);
+            maxColumn = Math.floor(this.column + ((rowGap + 1) / 2));
         }
         //偶数开始
         else {
             minColumn = Math.max(this.column - ((rowGap + 1) / 2), 0);
-            maxColumn = this.column + (rowGap / 2);
+            maxColumn = Math.floor(this.column + (rowGap / 2));
         }
 
         //在移动范围之外，额外增加

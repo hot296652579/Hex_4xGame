@@ -117,6 +117,7 @@ export default class BattleField extends cc.Component {
     }
     clickGrid(args) {
         let clicked = args.detail;
+        let self = this;
         // console.log(clicked.gridData);
         //点中了格子
         if (clicked != null) {
@@ -139,20 +140,19 @@ export default class BattleField extends cc.Component {
                 //当前没有选择终点
                 this.to = clicked;
                 this.to.GridType = GridRanderType.End;
-                let navTimes = 999;
-                let count = navTimes;
-                while (count > 0) {
-                    //有起点有终点，开始导航
-                    if (MapNavigator.getInstance().Navigate(this.currentData.mapData, this.from.gridData, this.to.gridData, this.path, this.searched)) {
-                    }
-                    else {
-                        //没有找到路径
-                        console.log('"Navitation failed. No path."');
-                        return;
-                    }
-                    --count;
+                //有起点有终点，开始导航
+                if (MapNavigator.getInstance().Navigate(this.currentData.mapData, this.from.gridData, this.to.gridData, function (args) {
+                    console.log(args);
+                    self.path = args[0];
+                    self.searched = args[1];
+                    self.TestGridRender();
+                })) {
                 }
-                this.TestGridRender();
+                else {
+                    //没有找到路径
+                    console.log('"Navitation failed. No path."');
+                    return;
+                }
                 // EUtilityHelperL.Log(string.Format("Nav times:{0}, timeCost{1:00}", navTimes, EUtilityHelperL.TimerEnd()));
             }
             else {
@@ -200,12 +200,8 @@ export default class BattleField extends cc.Component {
         let to = this.to;
         for (let index = 0; index < this.path.length; index++) {
             const item = this.path[index];
-            if (item.row != from.gridData.row && item.column != from.gridData.column) {
-                if (item.row != to.gridData.row && item.column != to.gridData.column) {
-                    let gu = this.gridUnits[item.column][item.row];
-                    gu.GridType = GridRanderType.Path;
-                }
-            }
+            let gu = this.gridUnits[item.column][item.row];
+            gu.GridType = GridRanderType.Path;
         }
     }
 

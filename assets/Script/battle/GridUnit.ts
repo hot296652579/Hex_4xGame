@@ -101,8 +101,6 @@ export default class GridUnit extends cc.Component {
             default:
                 break;
         }
-
-
     }
 
     refreshGridIcon(imgPath) {

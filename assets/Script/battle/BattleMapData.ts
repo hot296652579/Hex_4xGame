@@ -53,9 +53,9 @@ export default class BattleMapData {
             for (let c = 0; c < width; c++) {
                 let gud = new GridUnitData(r, c);
                 gud.localPosition = new cc.Vec2(c * this.GridWidth + ((r & 1) > 0 ? (this.GridWidth / 2) : 0),
-                    r * this.GridOffsetY);
-                gud.gridPosition = new cc.Vec2(r, c);
-                this.mapGrids[r][c] = gud;
+                    -r * this.GridOffsetY);
+                gud.gridPosition = new cc.Vec2(c, r);
+                this.mapGrids[c][r] = gud;
                 gud.GridType = GridType.Normal;
             }
         }
@@ -193,11 +193,11 @@ export default class BattleMapData {
 
             //7点钟方向格子
             case 1:
-                return this.GetGridData(row + 1, ((row & 1) > 0) ? column - 1 : column);
+                return this.GetGridData(row + 1, ((row & 1) <= 0) ? column - 1 : column);
 
             //5点钟方向
             case 2:
-                return this.GetGridData(row + 1, ((row & 1) > 0) ? column : column + 1);
+                return this.GetGridData(row + 1, ((row & 1) <= 0) ? column : column + 1);
 
             //3点钟方向
             case 3:
@@ -205,11 +205,11 @@ export default class BattleMapData {
 
             //1点钟方向
             case 4:
-                return this.GetGridData(row - 1, ((row & 1) > 0) ? column : column + 1);
+                return this.GetGridData(row - 1, ((row & 1) <= 0) ? column : column + 1);
 
             //11点钟方向
             case 5:
-                return this.GetGridData(row - 1, ((row & 1) > 0) ? column - 1 : column);
+                return this.GetGridData(row - 1, ((row & 1) <= 0) ? column - 1 : column);
 
             default:
                 return null;
