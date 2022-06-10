@@ -163,12 +163,12 @@ export default class BattleField extends cc.Component {
 
                 for (let index = 0; index < this.searched.length; index++) {
                     let item = this.searched[index];
-                    this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+                    this.gridUnits[item.row][item.column].GridType = GridRanderType.Normal;
                 }
 
                 for (let index = 0; index < this.path.length; index++) {
                     let item = this.path[index];
-                    this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+                    this.gridUnits[item.row][item.column].GridType = GridRanderType.Normal;
                 }
             }
         }
@@ -185,12 +185,12 @@ export default class BattleField extends cc.Component {
 
             for (let index = 0; index < this.searched.length; index++) {
                 let item = this.searched[index];
-                this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+                this.gridUnits[item.row][item.column].GridType = GridRanderType.Normal;
             }
 
             for (let index = 0; index < this.path.length; index++) {
                 let item = this.path[index];
-                this.gridUnits[item.column][item.row].GridType = GridRanderType.Normal;
+                this.gridUnits[item.row][item.column].GridType = GridRanderType.Normal;
             }
         }
     }
@@ -200,7 +200,7 @@ export default class BattleField extends cc.Component {
         let to = this.to;
         for (let index = 0; index < this.path.length; index++) {
             const item = this.path[index];
-            let gu = this.gridUnits[item.column][item.row];
+            let gu = this.gridUnits[item.row][item.column];
             gu.GridType = GridRanderType.Path;
         }
     }

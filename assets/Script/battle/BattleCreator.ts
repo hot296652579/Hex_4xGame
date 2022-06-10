@@ -2,7 +2,7 @@
  * @Author: super_javan 
  * @Date: 2022-04-12 22:15:43 
  * @Last Modified by: super_javan
- * @Last Modified time: 2022-04-25 16:33:32
+ * @Last Modified time: 2022-06-10 16:23:40
  * @Describe :  单例模式 创建战斗数据
  */
 
@@ -35,7 +35,7 @@ export default class BattleCreator {
 
     public CreateBattl(): BattleData {
         let battleData = new BattleData();
-        battleData.Generate(4, 4, 4, 2, 0);
+        battleData.Generate(6, 4, 4, 2, 0);
         return battleData;
     }
 

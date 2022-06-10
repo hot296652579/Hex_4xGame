@@ -2,7 +2,7 @@
  * @Author: super_javan 
  * @Date: 2022-04-12 22:17:59 
  * @Last Modified by: super_javan
- * @Last Modified time: 2022-04-25 15:34:56
+ * @Last Modified time: 2022-06-10 16:22:40
  * @Describe : 战斗数据模块
  */
 
@@ -55,7 +55,7 @@ export default class BattleMapData {
                 gud.localPosition = new cc.Vec2(c * this.GridWidth + ((r & 1) > 0 ? (this.GridWidth / 2) : 0),
                     -r * this.GridOffsetY);
                 gud.gridPosition = new cc.Vec2(c, r);
-                this.mapGrids[c][r] = gud;
+                this.mapGrids[r][c] = gud;
                 gud.GridType = GridType.Normal;
             }
         }
@@ -182,7 +182,7 @@ export default class BattleMapData {
         if (row < 0 || row >= this.mapHeight || column < 0 || column >= this.mapWidth)
             return null;
 
-        return this.mapGrids[column][row];
+        return this.mapGrids[row][column];
     }
 
     GetGridDataByDir(row, column, dir) {
