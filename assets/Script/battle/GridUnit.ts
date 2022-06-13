@@ -2,10 +2,11 @@
  * @Author: super_javan 
  * @Date: 2022-04-13 16:38:58 
  * @Last Modified by: super_javan
- * @Last Modified time: 2022-04-25 16:20:51
+ * @Last Modified time: 2022-06-13 16:03:48
  * @Describe : 格子显示对象
  */
 
+import BattleUnit from "../Data/BattleUnit";
 import GridUnitData, { GridType } from "./GridUnitData";
 
 class MyEvent extends cc.Event {
@@ -39,6 +40,8 @@ export default class GridUnit extends cc.Component {
 
     public gridData: GridUnitData = null;
     private gridRanderType: GridRanderType = null;
+
+    battleUnit: BattleUnit;
 
     start() {
         // this.normalGrid.active = false;
@@ -128,6 +131,17 @@ export default class GridUnit extends cc.Component {
             return true;
         }
         return false;
+    }
+
+    public toString() {
+        return `row:${this.gridData.row},${this.gridData.column}`;
+    }
+
+    public onEnter(battleUnit) {
+        this.battleUnit = battleUnit;
+    }
+    public onLeave() {
+        this.battleUnit = null;
     }
 
     // update (dt) {}
