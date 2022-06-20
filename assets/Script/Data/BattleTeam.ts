@@ -6,7 +6,7 @@
  * 队伍数据
  */
 
-import BattleField from "../battle/BattleField";
+import BattleFieldRenderer from "../battle/BattleFieldRenderer";
 import BattleUnit from "./BattleUnit";
 
 const { ccclass, property } = cc._decorator;

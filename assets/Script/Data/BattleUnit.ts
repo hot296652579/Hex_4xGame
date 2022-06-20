@@ -6,10 +6,10 @@
   * @Describe : 战斗单位数据 
  */
 
-import BattleField from "../battle/BattleField";
+import BattleFieldRenderer from "../battle/BattleFieldRenderer";
 import GridUnit from "../battle/GridUnit";
 import BattleUnitRenderer from "../DataRenderer/BattleUnitRenderer";
-import { BattleHeroEnterBattleFieldAction, BattleHeroSyncAttribute } from "../Msg/GameMsg";
+import { BattleHeroEnterBattleFieldRendererAction, BattleHeroSyncAttribute } from "../Msg/GameMsg";
 import BattleTeam from "./BattleTeam";
 
 const { ccclass, property } = cc._decorator;
@@ -37,7 +37,7 @@ export default class BattleUnit {
     public atk;
     public mobility;//每次行动范围
 
-    public battleField: BattleField;
+    public BattleFieldRenderer: BattleFieldRenderer;
     public battleTeam: BattleTeam;
     public enemyTeam: BattleTeam;
 
@@ -54,14 +54,14 @@ export default class BattleUnit {
 
     constructor() { }
 
-    public EnterBattleField(battleField: BattleField, bornGrid: GridUnit, generateAction): BattleHeroEnterBattleFieldAction {
-        if (battleField && bornGrid) {
-            this.battleField = battleField;
+    public EnterBattleFieldRenderer(BattleFieldRenderer: BattleFieldRenderer, bornGrid: GridUnit, generateAction): BattleHeroEnterBattleFieldRendererAction {
+        if (BattleFieldRenderer && bornGrid) {
+            this.BattleFieldRenderer = BattleFieldRenderer;
             this.EnterGrid(bornGrid);
         }
 
         if (generateAction) {
-            let action = new BattleHeroEnterBattleFieldAction(this);
+            let action = new BattleHeroEnterBattleFieldRendererAction(this);
             action.gridUnit = bornGrid;
             action.attribute = new BattleHeroSyncAttribute();
             action.attribute.hpChanged = 0;
@@ -89,5 +89,33 @@ export default class BattleUnit {
             this.mapGrid.onLeave();
             this.mapGrid = null;
         }
+    }
+
+    public ConnectRenderer(renderer: BattleUnitRenderer) {
+        if (renderer == null) {
+            console.log('battle unit connect renderer is null')
+            return;
+        }
+
+        if (this.battleUnitRenderer != null)
+            this.DisconnectRenderer();
+
+        this.battleUnitRenderer = renderer;
+        this.battleUnitRenderer.OnConnect(this);
+    }
+
+    DisconnectRenderer() {
+        if (this.battleUnitRenderer != null) {
+            this.battleUnitRenderer.OnDisconnect();
+            this.battleUnitRenderer = null;
+        }
+    }
+
+    public ToString() {
+        return `battleUnit_teamID:${this.battleTeam.teamID}_battleUnitID:${this.battleUnitID}`;
+    }
+
+    public Desc() {
+        return `atk:${this.atk} hp:${this.hp} maxHp:${this.maxHp}`;
     }
 }

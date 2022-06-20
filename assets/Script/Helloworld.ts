@@ -1,6 +1,6 @@
 import BattleCreator from "./battle/BattleCreator";
 import BattleData from "./battle/BattleData";
-import BattleField from "./battle/BattleField";
+import BattleFieldRenderer from "./battle/BattleFieldRenderer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,7 +15,7 @@ export default class Helloworld extends cc.Component {
     onLoad() {
         let self = this
         // let battleData = BattleCreator.getInstance().CreateBattl();
-        // BattleField.getInstance().LoadBattleData(battleData);
+        // BattleFieldRenderer.getInstance().LoadBattleData(battleData);
 
         // let testSpNode = this.testNode.getChildByName('testSp');
         // let imgPath = 'battle/img/Tiles/Medieval/medieval_cabin';

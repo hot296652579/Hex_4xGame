@@ -15,7 +15,7 @@ const { ccclass, property } = cc._decorator;
 export enum MsgBattleHeroActionType {
     None,
     Warning,            //警告(调试用)
-    EnterBattleField,   //进入战场
+    EnterBattleFieldRenderer,   //进入战场
     ChangeTarget,       //切换目标
     MotionAction,       //移动
     SkillAction,        //使用技能
@@ -38,11 +38,11 @@ export class BattleHeroAction extends BattleAction {
     }
 }
 //进入战场
-export class BattleHeroEnterBattleFieldAction extends BattleHeroAction {
+export class BattleHeroEnterBattleFieldRendererAction extends BattleHeroAction {
     public gridUnit: GridUnit;
     public attribute: BattleHeroSyncAttribute;
     constructor(actionUnit: BattleUnit) {
-        super(actionUnit, MsgBattleHeroActionType.EnterBattleField);
+        super(actionUnit, MsgBattleHeroActionType.EnterBattleFieldRenderer);
     }
 
     public override toString(): String {

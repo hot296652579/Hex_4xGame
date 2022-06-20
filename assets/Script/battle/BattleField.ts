@@ -16,7 +16,7 @@ import MapNavigator from "./MapNavigator";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BattleField extends cc.Component {
+export default class BattleFieldRenderer extends cc.Component {
 
     @property(cc.Node)
     gridUnitsRoot: cc.Node = null;
@@ -34,7 +34,7 @@ export default class BattleField extends cc.Component {
     public gridUnits: Array<Array<GridUnit>>;
 
     public gridPool: Array<GridUnit>;
-    static battleField: BattleField;
+    static BattleFieldRenderer: BattleFieldRenderer;
 
     onLoad() {
         // console.log(this.gridUnitModel);    
@@ -45,13 +45,13 @@ export default class BattleField extends cc.Component {
         this.searched = new Array<GridUnitData>();
     }
 
-    public static getInstance(): BattleField {
+    public static getInstance(): BattleFieldRenderer {
 
-        if (this.battleField == null) {
-            this.battleField = new BattleField();
+        if (this.BattleFieldRenderer == null) {
+            this.BattleFieldRenderer = new BattleFieldRenderer();
         }
 
-        return BattleField.battleField;
+        return BattleFieldRenderer.BattleFieldRenderer;
     }
 
     public LoadBattleData(battleData: BattleData) {
